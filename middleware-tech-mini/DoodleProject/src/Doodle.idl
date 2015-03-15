@@ -1,0 +1,37 @@
+module DoodleProject{
+	struct DoodleDetails {
+		string     name;
+		string     owner;
+	};
+	
+	typedef sequence<string> listString;
+	typedef sequence<long> listInteger;
+	
+	exception UserAlreadyVoted{ };
+	
+	interface DoodleClient{
+		    void printMsg(in string msg);
+		   	string getUsername();
+	};
+
+
+	interface Doodle{	
+		listString getChoices();
+		void addChoice(in string choice);
+		long vote(in DoodleClient client, in string choice) raises(UserAlreadyVoted);
+		readonly attribute DoodleDetails details;
+		string toString();
+		listInteger calculateWinner();
+		listString getVotingClients();
+	};
+	
+	interface DoodleManager{
+		boolean registerUser(in DoodleClient client);
+		void deleteUser(in DoodleClient client);
+		Doodle getDoodle(in string name);
+		Doodle createNewDoodle(in string name, in string owner);
+		listString getDoodleList();
+		listInteger closeDoodle(in Doodle doodle);
+	};
+
+};
